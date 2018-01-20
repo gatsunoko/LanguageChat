@@ -1,0 +1,71 @@
+body{
+  display: flex;
+}
+
+h2{
+  font-size: 1.5rem;
+  margin-top: 0.2em;
+  margin-bottom: 0.2em;
+}
+
+ul{
+  padding-left: 2em;
+}
+
+.question p{
+  height: 20vh;
+}
+
+.answer{
+  border-collapse: collapse;
+}
+
+.answer td{
+  border: 1px solid black;
+}
+
+.answer td:nth-child(1){
+  width: 10em;
+}
+
+.answer td:nth-child(2){
+  width: 30em;
+}
+
+.input-answer input{
+  width: 90%;
+}
+
+
+.left{
+  width: 60vw;
+}
+
+.right{
+  width: 30vw;
+}
+
+.left, .right{
+  border: 1px solid black;
+  padding: 1em;
+  height: 90vh;
+}
+
+
+.participant ul{
+  border: 1px solid black;
+  height: 20vh;
+  overflow-y: scroll;
+}
+
+.chat ul{
+  border: 1px solid black;
+  height: 40vh;
+  overflow-y: scroll;
+  padding-left: 0.5em;
+  list-style: none;
+}
+
+.chat input{
+  width: 100%;
+}

@@ -1,0 +1,105 @@
+<div class='left'>
+
+  <div class='question'>
+    <h2>問題</h2>
+    <p>
+      This is a pen. This is a pen. This is a pen. This is a pen. This is a pen. This is a pen. This is a pen. This is a pen. This is a pen. This is a pen. This is a pen. This is a pen. This is a pen. This is a pen. This is a pen.
+    </p>
+  </div>
+
+
+  <h2>回答</h2>
+
+  <table class='answer'>
+    <thead>
+      <tr>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>参加者1 </td>
+        <td>これはペンです</td>
+      </tr>
+      <tr>
+        <td>参加者2 </td>
+        <td>他の人の回答1</td>
+      </tr>
+      <tr>
+        <td>参加者3</td>
+        <td>(回答済)</td>
+      </tr>
+      <tr>
+        <td>参加者4</td>
+        <td>(入力中)</td>
+      </tr>
+      <tr>
+        <td>参加者5</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class='input-answer'>
+    <h2>あなたの答え</h2>
+    <input type="text" name="" value="">
+    <button type="button">送信</button>
+  </div>
+</div>
+
+<div class='right'>
+
+  <div class='participant'>
+    <h2>参加者</h2>
+    <ul class='participant'>
+      <% @members.each do |menber| %>
+        <li><%= menber.user.user_name %></li>
+      <% end -%>
+    </ul>
+  </div>
+
+  <div class='chat'>
+    <h2>チャット</h2>
+    <ul id="messages">
+      <li>[20:12] (参加者1) よろしくお願いします</li>
+      <li>[20:12] (参加者2) お手柔らかにおねがいします</li>
+      <% @messages.each do |message| %>
+        <%= render 'message', message: message %>
+      <% end -%>
+    </ul>
+
+    <div>
+      <form>
+        <label>Say something:</label><br>
+        <input type="text" data-behavior="room_speaker">
+      </form>
+    </div>
+  </div>
+</div>
+
+<script>
+App.room1 = App.cable.subscriptions.create({
+  channel: 'RoomChannel',
+  room: <%= @room.id %>
+}, {
+  connected: function() {},
+  disconnected: function() {},
+  received: function(data) {
+    return $('#messages').append(data['message']);
+  },
+  speak: function(message, room_id) {
+    return this.perform('speak', {
+      message: message,
+      room_id: room_id
+    });
+  }
+});
+
+$(document).on('keypress', '[data-behavior~=room_speaker]', function(event) {
+  if (event.keyCode === 13) {
+    App.room1.speak(event.target.value, <%= @room.id %>);
+    event.target.value = '';
+    return event.preventDefault();
+  }
+});
+</script>
